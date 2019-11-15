@@ -9,10 +9,12 @@ public class Player : MonoBehaviour
 
     private int cur_hp;
     public string player_name = "Catty";
+    public GameObject damaged_indication_UI;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
     private bool[] wasEnabled;  //Save for respawn
+
 
     private bool alive = true;
     public bool isAlive
@@ -51,11 +53,20 @@ public class Player : MonoBehaviour
 
         cur_hp -= damage;
 
+        damaged_indication_UI.SetActive(true);
+        StartCoroutine(DeactiveUI());
+
         if (cur_hp <= 0)
         {
             PlayerKilled(transform.name);
             cur_hp = 0;
         }
+    }
+
+    IEnumerator DeactiveUI()
+    {
+        yield return new WaitForSeconds(0.3f);
+        damaged_indication_UI.SetActive(false);
     }
 
     public void PlayerKilled(string id) //todo Gameover screen

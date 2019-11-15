@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     static Dictionary<string, Enemy> enemies = new Dictionary<string, Enemy>();
     static Dictionary<string, EnemyRange> rangeEnemies = new Dictionary<string, EnemyRange>();
     public GameObject gameoverUI;
+    public GameObject[] UI;
+
+    private bool UI_on = true;
 
     #region Singleton
     public static GameManager instance;
@@ -67,6 +70,25 @@ public class GameManager : MonoBehaviour
     void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (UI_on == true)
+            {
+                foreach (GameObject ob in UI)
+                    ob.SetActive(false);
+                UI_on = false;
+            }
+            else
+            {
+                foreach (GameObject ob in UI)
+                    ob.SetActive(true);
+                UI_on = true;
+            }
+        }
     }
 
     public GameObject player_object;
